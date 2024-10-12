@@ -1,0 +1,6 @@
+nltk
+num2words
+pydub
+scipy
+numpy
+gitpython
