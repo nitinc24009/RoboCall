@@ -38,7 +38,7 @@ def generate_auth_cookie(email=None, password=None):
     return cookie
 
 
-def download_humancall(download_dir, local_dir="data/", email=None, password=None):
+def download_humancall(local_dir="data/", email=None, password=None):
     """Extracts the audio download URL and download the files"""
 
     download_dir = "HumanCall_Audio"
