@@ -4,7 +4,7 @@ import argparse
 
 
 def download_human_audio(download_local_dir = "./data"):
-    dhc.download_audio(download_dir=download_local_dir)
+    dhc.download_humancall(download_dir=download_local_dir)
 
 
 def download_robocall_audio(download_local_dir = "./data"):
