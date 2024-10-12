@@ -64,7 +64,7 @@ def download_humancall(download_dir, local_dir="data/", email=None, password=Non
         if "type=save" in href:
             ofname = re.findall(".*.wav", href.split("/")[-1])[0]
 
-            if ofname not in os.listdir(outdir):
+            if ofname not in os.listdir(download_dir):
                 print(f"[*] Downloading: {ofname}", end="\r")
 
                 try:
