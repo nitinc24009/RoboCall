@@ -8,7 +8,7 @@ import time
 
 def generate_auth_cookie(email=None, password=None):
     """Generate a cookie and authenticate it"""
-    
+
     print(f"[*] Downloading Data From: https://sla2.talkbank.org/")
     login_url = "https://sla2.talkbank.org/logInUser"
     cookie = requests.get(login_url).headers["Set-Cookie"].split(";")[0]
@@ -81,7 +81,7 @@ def download_humancall(download_dir, local_dir="data/", email=None, password=Non
                     with open(file_name, "wb") as f:
                         f.write(audio_data)
             
-                    print(f"[+] Downloaded: {file_name}")
+                    # print(f"[+] Downloaded: {file_name}")
 
                 else:
                     print(f"[-] Cannot Download: {file_name}")
