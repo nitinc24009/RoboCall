@@ -24,7 +24,7 @@ if __name__ == '__main__':
         "-i", "--input", help="Directory where the Audio Files are Stored",
     )
     parser.add_argument(
-        "-s", "--spectrogram", choices=["stft", "chroma_stft", "chroma_cqt"], help="Set Spectrogram Type",
+        "-s", "--spectrogram", choices=["stft", "chroma_stft", "chroma_cqt", "mel"], help="Set Spectrogram Type",
     )
     parser.add_argument(
         "-o", "--output", help="Directory where to Store the Converted Audio Files"

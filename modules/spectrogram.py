@@ -32,18 +32,41 @@ class GenerateSpectrogram:
             X = librosa.stft(y=y)
             Xdb = librosa.amplitude_to_db(abs(X))
 
-            librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm')
-
-            lower_limit = 0
-            upper_limit = 5000
-            plt.ylim(lower_limit, upper_limit)
-
+            librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm', fmax=8000)
             plt.tight_layout()
 
             return plt, img_name
 
         else:
             return None, None
+
+
+    def mel_spectrogram(self, audio_file):
+        """
+        Takes input the audio filename and generates Mel-spectrogram.
+
+        :param audio_file: Path to the audio file
+        :returns plt: Matplotlib plot object
+        :return img_name: The name of the saved Mel-spectrogram image
+        """
+
+        if audio_file.endswith("wav"):
+            img_name = audio_file.split("/")[-1].replace(".wav", "_mel.png")
+
+            y, sr = librosa.load(audio_file)
+            y = librosa.resample(y, orig_sr=sr, target_sr=16000)
+
+            S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+            S_db = librosa.amplitude_to_db(S, ref=np.max)
+
+            librosa.display.specshow(S_db, sr=sr, cmap='coolwarm', fmax=8000)
+            plt.tight_layout()
+
+            return plt, img_name
+
+        else:
+            return None, None
+
 
 
     def chroma_stft_spectrogram(self, audio_file):
@@ -120,6 +143,9 @@ class GenerateSpectrogram:
 
         if self.stype=="chroma_cqt_spectrogram":
             plot, img_name = self.chroma_cqt_spectrogram(audio_file=audio_file)
+
+        if self.stype=="mel_spectrogram":
+            plot, img_name = self.mel_spectrogram(audio_file=audio_file)
 
         # Save Spectrogram
         if plot and img_name:
