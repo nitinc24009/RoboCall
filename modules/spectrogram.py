@@ -24,24 +24,27 @@ class GenerateSpectrogram:
         :return img_name:
         """
 
-        if audio_file.endswith("wav"):
-            img_name = audio_file.split("/")[-1].replace(".wav", "_stft.png")
+        try:
+            if audio_file.endswith("wav"):
+                img_name = audio_file.split("/")[-1].replace(".wav", "_stft.png")
 
-            if img_name not in os.listdir(self.output_dir):
-                y, sr = librosa.load(audio_file)
-                y = librosa.resample(y, orig_sr=sr, target_sr=16000)
-                X = librosa.stft(y=y)
-                Xdb = librosa.amplitude_to_db(abs(X))
+                if img_name not in os.listdir(self.output_dir):
+                    y, sr = librosa.load(audio_file)
+                    y = librosa.resample(y, orig_sr=sr, target_sr=16000)
+                    X = librosa.stft(y=y)
+                    Xdb = librosa.amplitude_to_db(abs(X))
 
-                librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm', fmax=8000)
-                plt.tight_layout()
+                    librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm', fmax=8000)
+                    plt.tight_layout()
 
-                return plt, img_name
+                    return plt, img_name
+                else:
+                    return None, None
             else:
                 return None, None
 
-        else:
-            return None, None
+        except Exception as e:
+            print(f"[E] Error with processing file: {audio_file} >> {e}")
 
 
     def mel_spectrogram(self, audio_file):
@@ -53,26 +56,29 @@ class GenerateSpectrogram:
         :return img_name: The name of the saved Mel-spectrogram image
         """
 
-        if audio_file.endswith("wav"):
-            img_name = audio_file.split("/")[-1].replace(".wav", "_mel.png")
+        try:
+            if audio_file.endswith("wav"):
+                img_name = audio_file.split("/")[-1].replace(".wav", "_mel.png")
 
-            if img_name not in os.listdir(self.output_dir):
-                y, sr = librosa.load(audio_file)
-                y = librosa.resample(y, orig_sr=sr, target_sr=16000)
+                if img_name not in os.listdir(self.output_dir):
+                    y, sr = librosa.load(audio_file)
+                    y = librosa.resample(y, orig_sr=sr, target_sr=16000)
 
-                S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
-                S_db = librosa.amplitude_to_db(S, ref=np.max)
+                    S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+                    S_db = librosa.amplitude_to_db(S, ref=np.max)
 
-                librosa.display.specshow(S_db, sr=sr, cmap='coolwarm', fmax=8000)
-                plt.tight_layout()
+                    librosa.display.specshow(S_db, sr=sr, cmap='coolwarm', fmax=8000)
+                    plt.tight_layout()
 
-                return plt, img_name
+                    return plt, img_name
 
+                else:
+                    return None, None
             else:
                 return None, None
-        else:
-            return None, None
-
+        
+        except Exception as e:
+            print(f"[E] Error with processing file: {audio_file} >> {e}")
 
 
     def chroma_stft_spectrogram(self, audio_file):
@@ -84,28 +90,32 @@ class GenerateSpectrogram:
         :return img_name:
         """
 
-        if audio_file.endswith("wav"):
-            img_name = audio_file.split("/")[-1].replace(".wav", "_chroma_stft.png")
+        try:
+            if audio_file.endswith("wav"):
+                img_name = audio_file.split("/")[-1].replace(".wav", "_chroma_stft.png")
 
-            if img_name not in os.listdir(self.output_dir):
-                y, sr = librosa.load(audio_file)
-                y = librosa.resample(y, orig_sr=sr, target_sr=16000)
-                X = np.abs(librosa.stft(y))
-                Xdb = librosa.feature.chroma_stft(S=X, sr=sr)
+                if img_name not in os.listdir(self.output_dir):
+                    y, sr = librosa.load(audio_file)
+                    y = librosa.resample(y, orig_sr=sr, target_sr=16000)
+                    X = np.abs(librosa.stft(y))
+                    Xdb = librosa.feature.chroma_stft(S=X, sr=sr)
 
-                librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm')
+                    librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm')
 
-                lower_limit = 0
-                upper_limit = 5000
-                plt.ylim(lower_limit, upper_limit)
+                    lower_limit = 0
+                    upper_limit = 5000
+                    plt.ylim(lower_limit, upper_limit)
 
-                plt.tight_layout()
+                    plt.tight_layout()
 
-                return plt, img_name
+                    return plt, img_name
+                else:
+                    return None, None
             else:
                 return None, None
-        else:
-            return None, None
+
+        except Exception as e:
+            print(f"[E] Error with processing file: {audio_file} >> {e}")
 
 
     def chroma_cqt_spectrogram(self, audio_file):
@@ -117,22 +127,26 @@ class GenerateSpectrogram:
         :return img_name:
         """
 
-        if audio_file.endswith("wav"):
-            img_name = audio_file.split("/")[-1].replace(".wav", "_chroma_cqt.png")
+        try:
+            if audio_file.endswith("wav"):
+                img_name = audio_file.split("/")[-1].replace(".wav", "_chroma_cqt.png")
 
-            if img_name not in os.listdir(self.output_dir):
-                y, sr = librosa.load(audio_file)
-                Xdb = librosa.feature.chroma_cqt(y=y, sr=sr)
+                if img_name not in os.listdir(self.output_dir):
+                    y, sr = librosa.load(audio_file)
+                    Xdb = librosa.feature.chroma_cqt(y=y, sr=sr)
 
-                librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm', x_axis='time', y_axis='hz')
+                    librosa.display.specshow(Xdb, sr=sr, cmap='coolwarm', x_axis='time', y_axis='hz')
 
-                plt.tight_layout()
+                    plt.tight_layout()
 
-                return plt, img_name
+                    return plt, img_name
+                else:
+                    return None, None
             else:
                 return None, None
-        else:
-            return None, None
+        
+        except Exception as e:
+            print(f"[E] Error with processing file: {audio_file} >> {e}")
 
 
     def save_spectrogram(self, audio_file):
