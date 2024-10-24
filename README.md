@@ -2,4 +2,6 @@
 
 > For `Linux` based environment
 
-```ulimit -n 4096```
+```
+ulimit -n 4096
+```
